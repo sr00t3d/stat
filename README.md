@@ -33,7 +33,7 @@ To run this script, you need:
 You can download the script directly to your server:
 
 ```bash
-wget https://raw.githubusercontent.com/percioandrade/netmonitor/main/stat.sh
+wget https://raw.githubusercontent.com/sr00t3d/stat/refs/heads/main/stat.sh
 chmod +x stat.sh
 ```
 
