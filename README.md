@@ -100,7 +100,7 @@ Port       Total Connections
 
 ## 📚 Detailed Tutorial
 
-For a complete, step-by-step guide on how to import generated files into Thunderbird and troubleshoot common migration issues, check out my full article:
+For a complete, step-by-step guide, check out my full article:
 
 👉 [**Monitoring Network with Stat**](https://perciocastelo.com.br/blog/monitor-network-with-stat.html)
 
