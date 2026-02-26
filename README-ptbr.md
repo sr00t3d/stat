@@ -5,6 +5,8 @@ Readme: [English](README.md)
 ![License](https://img.shields.io/github/license/sr00t3d/stat)
 ![Shell Script](https://img.shields.io/badge/shell-script-green)
 
+<img width="700" src="stat-cover.webp" />
+
 Um script Bash leve e eficiente para monitorar conexões de rede ativas em tempo real. Ele analisa o tráfego atual, agrupa conexões por porta e fornece feedback visual com código de cores baseado no volume de tráfego.
 
 Ideal para administradores de sistemas identificarem rapidamente picos de tráfego, ataques DDoS ou uso anômalo de portas.
