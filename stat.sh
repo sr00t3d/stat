@@ -1,17 +1,16 @@
-#!/bin/bash
-################################################################################
-#                                                                              #
-#   PROJECT: Network Connection Monitor (Stat)                                 #
-#   VERSION: 2.0.0                                                             #
-#                                                                              #
-#   AUTHOR:  Percio Andrade                                                    #
-#   CONTACT: percio@zendev.com.br | contato@perciocastelo.com.br               #
-#   WEB:     https://zendev.com.br                                             #
-#                                                                              #
-#   INFO:                                                                      #
-#   Monitor active network connections by port with traffic color coding.      #
-#                                                                              #
-################################################################################
+#!/usr/bin/env bash
+# ╔═══════════════════════════════════════════════════════════════════════════╗
+# ║                                                                           ║
+# ║   Stat(e) Network Connection  v2.0.0                                      ║
+# ║                                                                           ║
+# ╠═══════════════════════════════════════════════════════════════════════════╣
+# ║   Autor:   Percio Castelo                                                 ║
+# ║   Contato: percio@evolya.com.br | contato@perciocastelo.com.br            ║
+# ║   Web:     https://perciocastelo.com.br                                   ║
+# ║                                                                           ║
+# ║   Função:  Monitor active network connections by port                     ║
+# ║            with traffic color coding.                                     ║
+# ╚═══════════════════════════════════════════════════════════════════════════╝
 
 # --- CONFIGURATION ---
 DEFAULT_TOP_N=10

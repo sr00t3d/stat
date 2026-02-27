@@ -1,6 +1,6 @@
 # Network Connection Monitor (Stat)
 
-Readme: [Português](README-ptbr.md)
+Readme: [BR](README-ptbr.md)
 
 ![License](https://img.shields.io/github/license/sr00t3d/stat)
 ![Shell Script](https://img.shields.io/badge/shell-script-green)
@@ -30,45 +30,117 @@ To run this script, you need:
 - `Root/Sudo` access (required for the `ss` command to list all connections).
 - Standard packages (usually already installed): `iproute2` (for `ss`), `gawk` or `awk`.
 
+Here’s the English translation:
+
+---
+
 ## 📥 Installation
 
-You can download the script directly to your server:
+1. **Download the file to the server:**
 
 ```bash
-wget https://raw.githubusercontent.com/sr00t3d/stat/refs/heads/main/stat.sh
+curl -O https://raw.githubusercontent.com/sr00t3d/stat/refs/heads/main/stat.sh
+```
+
+2. **Give execution permission:**
+
+```bash
 chmod +x stat.sh
 ```
 
-## ⚙️ How to Use
-The script must be executed with superuser privileges.
-
-**Simple Execution**
-
-Shows the top 10 ports with the most connections and exits.
+3. **Run the script:**
 
 ```bash
 ./stat.sh
 ```
 
+## ⚙️ How to Use
+
+The script should be run with superuser privileges.
+
+**Simple Execution**
+
+Displays the top 10 ports with the most connections and exits.
+
+```bash
+./stat.sh
+Timestamp: 2026-02-27 23:07:08
+Monitoring TOP 10 ports by connection count
+----------------------------------------
+Port       Total Connections   
+----------------------------------------
+22         2                   
+68         1                   
+60993      1                   
+60972      1                   
+60729      1                   
+60550      1                   
+60402      1                   
+59670      1                   
+59596      1                   
+59442      1                   
+----------------------------------------
+```
+
 **Continuous Monitoring (Live Mode)**
-Refreshes the screen every 2 seconds (ideal for running on a secondary screen).
+
+Refreshes the screen every 2 seconds (ideal for leaving running on a secondary display).
 
 ```bash
 ./stat.sh -i 2
+
+Timestamp: 2026-02-27 23:07:42
+Monitoring TOP 10 ports by connection count
+----------------------------------------
+Port       Total Connections   
+----------------------------------------
+22         3                   
+68         1                   
+60993      1                   
+60972      1                   
+60729      1                   
+60550      1                   
+60402      1                   
+59670      1                   
+59596      1                   
+59442      1                   
+----------------------------------------
 ```
 
-**Customize Quantity**
-Shows the top 20 ports.
+**Customize Number of Ports**
+
+Displays the top 20 ports.
 
 ```bash
 ./stat.sh -n 20
-```
 
-**Combining Options**
-Shows the top 5 ports and refreshes every 1 second.
-
-```bash
-sudo ./stat.sh -n 5 -i 1
+[root@evy ~]# ./stat.sh -n 20
+Timestamp: 2026-02-27 23:08:16
+Monitoring TOP 20 ports by connection count
+----------------------------------------
+Port       Total Connections   
+----------------------------------------
+22         2                   
+68         1                   
+60993      1                   
+60972      1                   
+60729      1                   
+60550      1                   
+60402      1                   
+59670      1                   
+59596      1                   
+59442      1                   
+59397      1                   
+59210      1                   
+58733      1                   
+58507      1                   
+58489      1                   
+58234      1                   
+58121      1                   
+57184      1                   
+57123      1                   
+56292      1                   
+----------------------------------------
 ```
 
 ## 📖 Command Options
@@ -89,16 +161,16 @@ Monitoring the TOP 10 ports by connection volume
 ----------------------------------------
 Port       Total Connections      
 ----------------------------------------
-443        125                 <-- Red (High Traffic)
-80         35                  <-- Orange (Attention)
-22         4                   <-- Green (Normal)
+443        125                 <-- High Traffic
+80         35                  <-- Attention
+22         4                   <-- Normal
 ----------------------------------------
 ```
 
 ## ⚠️ Legal Notice
 
 > [!WARNING]
-> This software is provided "as is". Always make sure to test first in a development environment. The author is not responsible for any misuse, legal consequences, or data impact caused by this tool.
+> This software is provided "as is". Always ensure you have explicit permission before running. The author is not responsible for any misuse, legal consequences, or data impact caused by this tool.
 
 ## 📚 Detailed Tutorial
 

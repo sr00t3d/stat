@@ -1,6 +1,6 @@
 # Network Connection Monitor (Stat)
 
-Readme: [English](README.md)
+Readme: [EN](README.md)
 
 ![License](https://img.shields.io/github/license/sr00t3d/stat)
 ![Shell Script](https://img.shields.io/badge/shell-script-green)
@@ -17,9 +17,9 @@ Ideal para administradores de sistemas identificarem rapidamente picos de tráfe
 - Top N Portas: Permite definir quantas portas exibir no ranking (padrão: 10).
 - Modo Live (Watch): Suporta atualização automática com intervalo definível (como o comando `watch`).
 - Alertas Visuais: Coloração dinâmica baseada na carga:
-  - 🟢 Verde: Tráfego normal (< 20 conexões)
-  - 🟠 Laranja: Tráfego moderado (20 - 50 conexões)
-  - 🔴 Vermelho: Tráfego alto (> 50 conexões)
+  - Tráfego normal (< 20 conexões)
+  - Tráfego moderado (20 - 50 conexões)
+  - Tráfego alto (> 50 conexões)
 - Leve: Depende apenas de ferramentas nativas (`ss`, `awk`, `sort`, `uniq`).
 
 ## 📋 Pré-requisitos
@@ -32,11 +32,22 @@ Para executar este script, você precisa de:
 
 ## 📥 Instalação
 
-Você pode baixar o script diretamente para o seu servidor:
+1. **Baixe o arquivo no servidor:**
 
 ```bash
-wget https://raw.githubusercontent.com/percioandrade/netmonitor/main/stat.sh
+curl -O https://raw.githubusercontent.com/sr00t3d/stat/refs/heads/main/stat.sh
+```
+
+2. **Dê permissão de execução:**
+
+```bash
 chmod +x stat.sh
+```
+
+3. **Execute o script:**
+
+```bash
+./stat.sh
 ```
 
 ## ⚙️ Como Usar
@@ -48,23 +59,87 @@ Mostra as top 10 portas com mais conexões e sai.
 
 ```bash
 ./stat.sh
+Timestamp: 2026-02-27 23:07:08
+Monitoring TOP 10 ports by connection count
+----------------------------------------
+Port       Total Connections   
+----------------------------------------
+22         2                   
+68         1                   
+60993      1                   
+60972      1                   
+60729      1                   
+60550      1                   
+60402      1                   
+59670      1                   
+59596      1                   
+59442      1                   
+----------------------------------------
 ```
 
 **Monitoramento Contínuo (Live Mode)**
+
 Atualiza a tela a cada 2 segundos (ideal para deixar rodando em uma tela secundária).
 
 ```bash
 ./stat.sh -i 2
+
+Timestamp: 2026-02-27 23:07:42
+Monitoring TOP 10 ports by connection count
+----------------------------------------
+Port       Total Connections   
+----------------------------------------
+22         3                   
+68         1                   
+60993      1                   
+60972      1                   
+60729      1                   
+60550      1                   
+60402      1                   
+59670      1                   
+59596      1                   
+59442      1                   
+----------------------------------------
 ```
 
 **Personalizar Quantidade**
+
 Mostra as top 20 portas.
 
 ```bash
 ./stat.sh -n 20
+
+[root@evy ~]# ./stat.sh -n 20
+Timestamp: 2026-02-27 23:08:16
+Monitoring TOP 20 ports by connection count
+----------------------------------------
+Port       Total Connections   
+----------------------------------------
+22         2                   
+68         1                   
+60993      1                   
+60972      1                   
+60729      1                   
+60550      1                   
+60402      1                   
+59670      1                   
+59596      1                   
+59442      1                   
+59397      1                   
+59210      1                   
+58733      1                   
+58507      1                   
+58489      1                   
+58234      1                   
+58121      1                   
+57184      1                   
+57123      1                   
+56292      1                   
+----------------------------------------
 ```
 
 **Combinando Opções**
+
 Mostra as top 5 portas e atualiza a cada 1 segundo.
 
 ```bash
@@ -87,22 +162,22 @@ O script classifica o tráfego da seguinte forma:
 Data/Hora: 2026-02-13 14:30:00
 Monitorando as TOP 10 portas por volume de conexão
 ----------------------------------------
-Porta      Total Conexões      
+Port       Total Connections       
 ----------------------------------------
-443        125                 <-- Vermelho (Alto Tráfego)
-80         35                  <-- Laranja (Atenção)
-22         4                   <-- Verde (Normal)
+443        125                 <-- Alto Tráfego
+80         35                  <-- Atenção
+22         4                   <-- Normal
 ----------------------------------------
 ```
 
 ## ⚠️ Aviso Legal
 
 > [!WARNING]
-> Este software é fornecido "como está". Certifique-se sempre de testar primeiro em um ambiente de desenvolvimento. O autor não se responsabiliza por qualquer uso indevido, consequências legais ou impacto em dados causado por esta ferramenta.
+> Este software é fornecido "tal como está". Certifique-se sempre de ter permissão explícita antes de executar. O autor não se responsabiliza por qualquer uso indevido, consequências legais ou impacto nos dados causados ​​por esta ferramenta.
 
-## 📚 Tutorial Detalhado
+## 📚 Detailed Tutorial
 
-Para um guia completo, passo a passo, sobre como importar arquivos gerados para o Thunderbird e solucionar problemas comuns de migração, confira meu artigo completo:
+Para um guia completo, passo a passo, confira meu artigo completo:
 
 👉 [**Monitorando Rede com Stat**](https://perciocastelo.com.br/blog/monitor-network-with-stat.html)
 
