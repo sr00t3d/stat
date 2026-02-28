@@ -2,8 +2,7 @@
 
 Readme: [BR](README-ptbr.md)
 
-![License](https://img.shields.io/github/license/sr00t3d/stat)
-![Shell Script](https://img.shields.io/badge/shell-script-green)
+![License](https://img.shields.io/github/license/sr00t3d/stat) ![Shell Script](https://img.shields.io/badge/shell-script-green)
 
 <img width="700" src="stat-cover.webp" />
 
