@@ -21,7 +21,7 @@ Ideal for system administrators to quickly identify traffic spikes, DDoS attacks
   - 🔴 Red: High traffic (> 50 connections)
 - Lightweight: Depends only on native tools (`ss`, `awk`, `sort`, `uniq`).
 
-## 📋 Prerequisites
+## Prerequisites
 
 To run this script, you need:
 
@@ -33,7 +33,9 @@ Here’s the English translation:
 
 ---
 
-## 📥 Installation
+## Installation
+
+### Hosted mode
 
 1. **Download the file to the server:**
 
@@ -47,13 +49,13 @@ curl -O https://raw.githubusercontent.com/sr00t3d/stat/refs/heads/main/stat.sh
 chmod +x stat.sh
 ```
 
-3. **Run the script:**
+### Direct mode
 
 ```bash
-./stat.sh
+bash <(curl -fsSL 'https://raw.githubusercontent.com/sr00t3d/stat/refs/heads/main/stat.sh')
 ```
 
-## ⚙️ How to Use
+## How to Use
 
 The script should be run with superuser privileges.
 
@@ -63,6 +65,7 @@ Displays the top 10 ports with the most connections and exits.
 
 ```bash
 ./stat.sh
+
 Timestamp: 2026-02-27 23:07:08
 Monitoring TOP 10 ports by connection count
 ----------------------------------------
@@ -113,7 +116,7 @@ Displays the top 20 ports.
 ```bash
 ./stat.sh -n 20
 
-[root@evy ~]# ./stat.sh -n 20
+./stat.sh -n 20
 Timestamp: 2026-02-27 23:08:16
 Monitoring TOP 20 ports by connection count
 ----------------------------------------
@@ -142,7 +145,7 @@ Port       Total Connections
 ----------------------------------------
 ```
 
-## 📖 Command Options
+## Command Options
 
 ```bash
 Flag         Description                                                  Default
@@ -151,7 +154,8 @@ Flag         Description                                                  Defaul
 -h           Displays the help menu                                       -
 ```
 
-## 🎨 Understanding the Output
+## Understanding the Output
+
 The script classifies traffic as follows:
 
 ```bash
@@ -166,17 +170,17 @@ Port       Total Connections
 ----------------------------------------
 ```
 
-## ⚠️ Legal Notice
+## Legal Notice
 
 > [!WARNING]
 > This software is provided "as is". Always ensure you have explicit permission before running. The author is not responsible for any misuse, legal consequences, or data impact caused by this tool.
 
-## 📚 Detailed Tutorial
+## Detailed Tutorial
 
 For a complete, step-by-step guide, check out my full article:
 
 👉 [**Monitoring Network with Stat**](https://perciocastelo.com.br/blog/monitor-network-with-stat.html)
 
-## License 📄
+## License
 
 This project is licensed under the **GNU General Public License v3.0**. See the [LICENSE](LICENSE) file for more details.
