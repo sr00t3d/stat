@@ -1,189 +1,122 @@
 # Network Connection Monitor (Stat)
 
-Readme: [EN](README.md)
+Readme: [English](README.md)
 
-![License](https://img.shields.io/github/license/sr00t3d/stat) ![Shell Script](https://img.shields.io/badge/shell-script-green)
+![Licença](https://img.shields.io/badge/licença-Apache--2.0-blue.svg) ![Shell Script](https://img.shields.io/badge/shell-script-green) ![Release](https://img.shields.io/badge/release-v2.0.0-blue)
 
-<img width="700" src="stat-cover.webp" />
+<img width="700" src="stat-cover.webp" alt="Capa do Network Connection Monitor" />
 
-Um script Bash leve e eficiente para monitorar conexões de rede ativas em tempo real. Ele analisa o tráfego atual, agrupa conexões por porta e fornece feedback visual com código de cores baseado no volume de tráfego.
+Script Bash leve e eficiente para monitorar conexões ativas de rede em tempo real em servidores Linux. Analisa sockets ativos TCP e UDP, agrupa conexões por porta local de destino, audita a distribuição de estados TCP (detectando ataques de SYN Flood e vazamento de sockets) e isola os principais endereços IP remotos de clientes (Top Talkers).
 
-Ideal para administradores de sistemas identificarem rapidamente picos de tráfego, ataques DDoS ou uso anômalo de portas.
+## Recursos
 
-## Funcionalidades
-
-- Monitoramento em Tempo Real: Exibe conexões ativas (established) TCP e UDP.
-- Top N Portas: Permite definir quantas portas exibir no ranking (padrão: 10).
-- Modo Live (Watch): Suporta atualização automática com intervalo definível (como o comando `watch`).
-- Alertas Visuais: Coloração dinâmica baseada na carga:
-  - Tráfego normal (< 20 conexões)
-  - Tráfego moderado (20 - 50 conexões)
-  - Tráfego alto (> 50 conexões)
-- Leve: Depende apenas de ferramentas nativas (`ss`, `awk`, `sort`, `uniq`).
-
-## Pré-requisitos
-
-Para executar este script, você precisa de:
-
-- Sistema Operacional Linux/Unix.
-- Acesso `Root/Sudo` (necessário para o comando `ss` listar todas as conexões).
-- Pacotes padrão (geralmente já instalados): `iproute2` (para o `ss`), `gawk` ou `awk`.
+- **Agregação de Tráfego em Tempo Real**: Audita sockets TCP/UDP ativos agrupados por porta de destino.
+- **Telemetria de Estados TCP**: Contabilização instantânea de `ESTAB`, `SYN_RECV`, `TIME_WAIT`, `CLOSE_WAIT` e `FIN_WAIT`.
+- **Alertas Automáticos de Anomalia**: Limiares integrados acionam alertas visuais para suspeita de SYN Flood (`SYN_RECV > 20`) ou exaustão de descritores (`CLOSE_WAIT > 50`).
+- **Inspeção de Porta Específica (`-p, --port`)**: Inspecione portas de serviços críticos (80, 443, 22, 3306) para identificar quem está conectado.
+- **Isolamento de Top Talkers (`--top-talkers`)**: Agrupa e ranqueia conexões por IP de origem para isolar tráfego abusivo.
+- **Modo Watch Contínuo (`-w, --watch`)**: Dashboard interativo de console com atualização em intervalo configurável.
+- **Múltiplos Formatos de Saída (`-o table|json|csv`)**: Pronto para diagnóstico interativo no terminal, logs CSV ou pipelines JSON para SIEM.
+- **Zero Dependências Pesadas**: Utiliza utilitários nativos do Linux (`ss` do pacote `iproute2` com fallback para `netstat`).
 
 ## Instalação
 
-### Modo hospedado
-
-1. **Baixe o arquivo no servidor:**
+### Execução Direta
 
 ```bash
-curl -O https://raw.githubusercontent.com/sr00t3d/stat/refs/heads/main/stat.sh
+bash <(curl -fsSL https://raw.githubusercontent.com/sr00t3d/stat/main/stat.sh)
 ```
 
-2. **Dê permissão de execução:**
+### Clonar ou Baixar
 
 ```bash
+git clone https://github.com/sr00t3d/stat.git
+cd stat
 chmod +x stat.sh
+sudo ./stat.sh
 ```
 
-### Modo direto
+## Uso via Linha de Comando
 
-```bash
-bash <(curl -fsSL 'https://raw.githubusercontent.com/sr00t3d/stat/refs/heads/main/stat.sh')
+```text
+STAT(E) — MONITOR DE CONEXÕES DE REDE v2.0.0
+Monitoramento leve em tempo real de tráfego, portas e estados TCP.
+
+Uso: stat.sh [OPÇÕES]
+
+Opções:
+  -t, -n, --top NUM      Número de registros a exibir no ranking (padrão: 10)
+  -i, --interval SEG     Intervalo de atualização contínua em segundos (ex: 2)
+  -w, --watch [SEG]      Ativar modo contínuo interativo (padrão: 2s)
+  -p, --port PORTA       Filtrar conexões por porta local de destino (ex: 80, 443, 22)
+  -s, --state ESTADO     Filtrar conexões por estado TCP (ex: ESTAB, TIME-WAIT, SYN-RECV)
+  --top-talkers          Exibir ranking exclusivo de IPs remotos (Top Talkers)
+  -o, --output FORMAT    Formato de saída: table, json, csv (padrão: table)
+  -q, --quiet            Modo silencioso (omite banners e cabeçalhos decorativos)
+  --no-color             Desabilitar escape de cores ANSI
+  -V, --version          Exibir versão e autor
+  -h, --help             Exibir esta mensagem de ajuda
 ```
 
-## Como Usar
+## Exemplo de Saída Real
 
-O script deve ser executado com privilégios de superusuário.
+Capturado em execução real em container AlmaLinux 8 de produção (`cpanel-test`):
 
-**Execução Simples**
+```text
+╔══════════════════════════════════════════════════════════════════════════════╗
+║ STAT(E) — NETWORK CONNECTION MONITOR v2.0.0                                ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+Host: cpanel-test.local | Data/Hora: 2026-11-20 01:39:34 | Motor: ss | Total Ativo: 2
 
-Mostra as top 10 portas com mais conexões e sai.
+[+] TCP STATES SUMMARY:
+  ESTAB: 2  |  SYN_RECV: 0  |  TIME_WAIT: 0  |  CLOSE_WAIT: 0  |  FIN_WAIT: 0  |  OUTROS: 0
 
-```bash
-./stat.sh
+[+] TOP 10 PORTS BY CONNECTION VOLUME:
+----------------------------------------------------------------------
+PORT       SERVICE          CONNECTIONS LEVEL          STATUS    
+----------------------------------------------------------------------
+22         SSH              2          [==        ]   NORMAL    
+----------------------------------------------------------------------
 
-Timestamp: 2026-02-27 23:07:08
-Monitoring TOP 10 ports by connection count
-----------------------------------------
-Port       Total Connections   
-----------------------------------------
-22         2                   
-68         1                   
-60993      1                   
-60972      1                   
-60729      1                   
-60550      1                   
-60402      1                   
-59670      1                   
-59596      1                   
-59442      1                   
-----------------------------------------
+[+] TOP REMOTE CLIENTS (TOP TALKERS) (Top 5):
+----------------------------------------------------------------------
+REMOTE IP              CONNECTIONS  DEST PORTS                    
+----------------------------------------------------------------------
+177.180.50.192         2            22                            
+----------------------------------------------------------------------
 ```
 
-**Monitoramento Contínuo (Live Mode)**
+Saída estruturada em JSON (`stat.sh -o json`):
 
-Atualiza a tela a cada 2 segundos (ideal para deixar rodando em uma tela secundária).
-
-```bash
-./stat.sh -i 2
-
-Timestamp: 2026-02-27 23:07:42
-Monitoring TOP 10 ports by connection count
-----------------------------------------
-Port       Total Connections   
-----------------------------------------
-22         3                   
-68         1                   
-60993      1                   
-60972      1                   
-60729      1                   
-60550      1                   
-60402      1                   
-59670      1                   
-59596      1                   
-59442      1                   
-----------------------------------------
+```json
+{
+  "timestamp": "2026-11-20T04:39:54Z",
+  "host": "cpanel-test.local",
+  "engine": "ss",
+  "total_active_connections": 2,
+  "filter": {
+    "port": "all",
+    "state": "all"
+  },
+  "tcp_states": {
+    "ESTAB": 2,
+    "SYN_RECV": 0,
+    "TIME_WAIT": 0,
+    "CLOSE_WAIT": 0,
+    "FIN_WAIT": 0,
+    "OTHER": 0
+  },
+  "top_ports": [{"port": 22, "service": "SSH", "connections": 2, "status": "NORMAL"}],
+  "top_remote_ips": [{"ip": "177.180.50.192", "connections": 2, "target_ports": [22]}]
+}
 ```
 
-**Personalizar Quantidade**
+## Contribuição
 
-Mostra as top 20 portas.
+Pull requests e sugestões de otimização são bem-vindos diretamente no repositório.
 
-```bash
-./stat.sh -n 20
+## Autor e Licença
 
-Timestamp: 2026-02-27 23:08:16
-Monitoring TOP 20 ports by connection count
-----------------------------------------
-Port       Total Connections   
-----------------------------------------
-22         2                   
-68         1                   
-60993      1                   
-60972      1                   
-60729      1                   
-60550      1                   
-60402      1                   
-59670      1                   
-59596      1                   
-59442      1                   
-59397      1                   
-59210      1                   
-58733      1                   
-58507      1                   
-58489      1                   
-58234      1                   
-58121      1                   
-57184      1                   
-57123      1                   
-56292      1                   
-----------------------------------------
-```
+Desenvolvido por **Percio Castelo** ([perciocastelo.com.br](https://perciocastelo.com.br)).
 
-**Combinando Opções**
-
-Mostra as top 5 portas e atualiza a cada 1 segundo.
-
-```bash
-sudo ./stat.sh -n 5 -i 1
-```
-
-## Opções de Comando
-
-```bash
-Flag         Descrição                                                      Padrão
--n [NUM]     Define o número de portas a serem exibidas no ranking.         10
--i [SEC]     Define o intervalo de atualização em segundos (loop infinito)  0 (Sem refresh)
--h           Exibe o menu de ajuda                                          -
-```
-
-## Entendendo a Saída
-
-O script classifica o tráfego da seguinte forma:
-
-```bash
-Data/Hora: 2026-02-13 14:30:00
-Monitorando as TOP 10 portas por volume de conexão
-----------------------------------------
-Port       Total Connections       
-----------------------------------------
-443        125                 <-- Alto Tráfego
-80         35                  <-- Atenção
-22         4                   <-- Normal
-----------------------------------------
-```
-
-## Aviso Legal
-
-> [!WARNING]
-> Este software é fornecido "tal como está". Certifique-se sempre de ter permissão explícita antes de executar. O autor não se responsabiliza por qualquer uso indevido, consequências legais ou impacto nos dados causados ​​por esta ferramenta.
-
-## Detailed Tutorial
-
-Para um guia completo, passo a passo, confira meu artigo completo:
-
-👉 [**Monitorando Rede com Stat**](https://perciocastelo.com.br/blog/monitor-network-with-stat.html)
-
-## Licença
-
-Este projeto está licenciado sob a **GNU General Public License v3.0**. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Licenciado sob a **Apache License 2.0** ([LICENSE](LICENSE)).
