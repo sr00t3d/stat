@@ -120,3 +120,14 @@ Contributions, bug reports, and optimizations are welcome via pull requests or G
 Developed by **Percio Castelo** ([perciocastelo.com.br](https://perciocastelo.com.br)).
 
 Licensed under the **Apache License 2.0** ([LICENSE](LICENSE)).
+
+## Windows (PowerShell `stat.ps1`)
+
+Zero external dependencies — uses native `Get-NetTCPConnection` on **Windows PowerShell 5.1** and **PowerShell 7+**:
+
+```powershell
+.\stat.ps1
+.\stat.ps1 -Top 15 -Port 443
+.\stat.ps1 -State Established -Output json
+.\stat.ps1 -Interval 3
+```
