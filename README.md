@@ -58,6 +58,27 @@ Options:
   -h, --help             Display this help message
 ```
 
+## Direct Execution & Windows PowerShell
+
+### Linux / macOS (Direct Execution)
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/sr00t3d/stat/main/stat.sh)
+```
+
+### Windows (PowerShell `stat.ps1`)
+Zero external dependencies — works natively on **Windows PowerShell 5.1+** and **PowerShell 7+**:
+
+```powershell
+# Direct execution (no clone required)
+irm https://raw.githubusercontent.com/sr00t3d/stat/main/stat.ps1 | iex
+
+# Local execution
+.\stat.ps1
+.\stat.ps1 -Top 15 -Port 443
+.\stat.ps1 -State Established -Output json
+.\stat.ps1 -Interval 3
+```
+
 ## Real Output Example
 
 Captured live on AlmaLinux 8 production container (`cpanel-test`):
@@ -120,14 +141,3 @@ Contributions, bug reports, and optimizations are welcome via pull requests or G
 Developed by **Percio Castelo** ([perciocastelo.com.br](https://perciocastelo.com.br)).
 
 Licensed under the **Apache License 2.0** ([LICENSE](LICENSE)).
-
-## Windows (PowerShell `stat.ps1`)
-
-Zero external dependencies — uses native `Get-NetTCPConnection` on **Windows PowerShell 5.1** and **PowerShell 7+**:
-
-```powershell
-.\stat.ps1
-.\stat.ps1 -Top 15 -Port 443
-.\stat.ps1 -State Established -Output json
-.\stat.ps1 -Interval 3
-```
